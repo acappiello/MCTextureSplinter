@@ -1,0 +1,3 @@
+Distributed under GPL, V.3.
+
+https://www.gnu.org/licenses/gpl.html
