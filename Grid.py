@@ -1,3 +1,7 @@
+# Author: Alex Cappiello
+# Date: 12/20/12
+# Updated: 12/21/12
+
 import utils, os
 from PIL import Image
 

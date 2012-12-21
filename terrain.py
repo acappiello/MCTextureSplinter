@@ -1,3 +1,7 @@
+# Author: Alex Cappiello
+# Date: 12/19/12
+# Updated: 12/21/12
+
 import Block
 
 terrain_map = {

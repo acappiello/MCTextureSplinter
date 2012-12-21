@@ -1,4 +1,8 @@
-import PIL, Grid
+# Author: Alex Cappiello
+# Date: 12/19/12
+# Updated: 12/21/12
+
+import Grid
 from terrain import terrain_map
 
 """

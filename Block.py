@@ -1,3 +1,7 @@
+# Author: Alex Cappiello
+# Date: 12/19/12
+# Updated: 12/21/12
+
 class BlockInfo:
     """Information needed for each block in the map."""
     def __init__ (self, name, width, height):
