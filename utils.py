@@ -3,6 +3,8 @@
 # Updated: 12/21/12
 
 import sys
+import tkMessageBox
+
 
 def raise_error (msg):
     """Handle when things go wrong in some reasonable way.
