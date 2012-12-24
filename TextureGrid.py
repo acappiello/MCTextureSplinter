@@ -29,9 +29,6 @@ class Grid:
 
     def construct_location (obj, x, y, block):
         """Find the location of a block in the combined image."""
-        # Something seems to be getting flipped around here.
-        # Works now, but unsure what exactly was wrong.
-        # PIL takes inputs backwards sometimes.
         tlx = x * obj.block_size
         tly = y * obj.block_size
         brx = tlx + (block.height * obj.block_size)
