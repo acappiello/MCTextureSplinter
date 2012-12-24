@@ -2,7 +2,7 @@
 # Date: 12/19/12
 # Updated: 12/21/12
 
-import Grid
+import TkGUI
 from terrain import terrain_map
 
 """
@@ -23,7 +23,7 @@ def print_blocks (blocks, width, height):
 
 def main ():
     """Start the program."""
-    print "hi there"
+    TkGUI.Gui()
 
 if __name__ == "__main__":
     main()
