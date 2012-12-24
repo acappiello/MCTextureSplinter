@@ -1,13 +1,11 @@
-"""Class for manipulating texture pack PNGs.
-
-Author: Alex Cappiello
-Date: 12/20/12
-Updated: 12/21/12
-"""
+"""Class for manipulating texture pack PNGs."""
 
 import os
 from PIL import Image
 import utils
+
+__author__ = "Alex Cappiello"
+__license__ = "See LICENSE.txt"
 
 
 class Grid:

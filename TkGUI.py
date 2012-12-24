@@ -1,15 +1,13 @@
-"""Tkinter-based GUI for MCTextureSplinter.
-
-Author: Alex Cappiello
-Date: 12/21/12
-Updated: 12/24/12
-"""
+"""Tkinter-based GUI for MCTextureSplinter."""
 
 import os
 from Tkinter import *
 import tkFileDialog
 import TextureGrid
 from terrain import terrain_map
+
+__author__ = "Alex Cappiello"
+__license__ = "See LICENSE.txt"
 
 
 class CallerInfo:
@@ -120,10 +118,12 @@ class Gui:
         states = []
         for res in resolutions:
             label = str(res) + "x" + str(res)
-            state = IntVar()
+            state = BooleanVar()
             states.append((res, state))
             box = Checkbutton(checkboxes, text=label, variable=state)
             box.pack(anchor="w")
+            if (len(states) == 1):
+                box.select()
         self.res_options = states
         checkboxes.pack(side=LEFT)
 

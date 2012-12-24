@@ -1,8 +1,10 @@
-# Author: Alex Cappiello
-# Date: 12/19/12
-# Updated: 12/21/12
+"""The blocks in terrain.png."""
 
 import Block
+
+__author__ = "Alex Cappiello"
+__license__ = "See LICENSE.txt"
+
 
 terrain_map = {
     ( 0,  0) : Block.BlockInfo("grass", 1, 1),

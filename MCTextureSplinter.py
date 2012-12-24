@@ -1,26 +1,13 @@
-"""A tool for combining and splitting Minecraft texture packs.
+#!/usr/bin/env python
 
-Author: Alex Cappiello
-Date: 12/19/12
-Updated: 12/24/12
-"""
+"""A tool for combining and splitting Minecraft texture packs."""
 
 import TkGUI
-from terrain import terrain_map
-
 
 __author__ = "Alex Cappiello"
-__version__ = ".17a"
-
-
-def print_blocks(blocks, width, height):
-    """Print the data in the map."""
-    for i in xrange(width):
-        for j in xrange(height):
-            if (i, j) in blocks:
-                block = blocks[(i, j)]
-                print "name: " + block.name + " width: " + str(block.width) \
-                    + " height: " + str(block.height)
+__license__ = "See LICENSE.txt"
+__version__ = "0.2"
+__status__ = "Alpha"
 
 
 def main():
