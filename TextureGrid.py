@@ -1,6 +1,9 @@
-# Author: Alex Cappiello
-# Date: 12/20/12
-# Updated: 12/21/12
+"""Class for manipulating texture pack PNGs.
+
+Author: Alex Cappiello
+Date: 12/20/12
+Updated: 12/21/12
+"""
 
 import os
 from PIL import Image
@@ -95,8 +98,8 @@ class Grid:
 
     def reconstruct(obj, res=[16]):
         """Assemble the grid from the individual block files.
-        If more than one resolution is desired, the largest resolution is used
-        and the end result is scaled down. The output files will have
+        If more than one resolution is desired, the largest resolution is
+        used and the end result is scaled down. The output files will have
         the size denoted in the filename."""
         res = list(set(res))  # Squish duplicates.
         if (len(res) == 0):

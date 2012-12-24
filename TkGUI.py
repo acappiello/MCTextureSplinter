@@ -1,6 +1,9 @@
-# Author: Alex Cappiello
-# Date: 12/21/12
-# Updated: 12/21/12
+"""Tkinter-based GUI for MCTextureSplinter.
+
+Author: Alex Cappiello
+Date: 12/21/12
+Updated: 12/24/12
+"""
 
 import os
 from Tkinter import *

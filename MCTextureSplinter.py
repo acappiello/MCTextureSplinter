@@ -1,13 +1,13 @@
-# Author: Alex Cappiello
-# Date: 12/19/12
-# Updated: 12/21/12
+"""A tool for combining and splitting Minecraft texture packs.
+
+Author: Alex Cappiello
+Date: 12/19/12
+Updated: 12/24/12
+"""
 
 import TkGUI
 from terrain import terrain_map
 
-"""
-A tool for combining and splitting Minecraft texture packs.
-"""
 
 __author__ = "Alex Cappiello"
 __version__ = ".17a"
