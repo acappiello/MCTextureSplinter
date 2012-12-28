@@ -61,7 +61,6 @@ class Grid:
     def deconstruct(self):
         """Deconstruct an entire combined image file into the individual
         blocks."""
-
         # Do some sanity checks on input.
         if (not os.path.exists(self.img_path)):
             utils.raise_error("Input file does not exist: " + self.img_path)
@@ -90,7 +89,7 @@ class Grid:
 
         # Some checks on inputs.
         if (not os.path.exists(filename)):
-            utils.raise_error("Could not open: " + filenema)
+            utils.raise_error("Could not open: " + filename)
 
         block_img = Image.open(filename)
         (width, height) = block_img.size
