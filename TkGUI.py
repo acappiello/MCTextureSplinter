@@ -5,6 +5,7 @@ from Tkinter import *
 import tkFileDialog
 import TextureGrid
 from terrain import terrain_map
+from items import items_map
 
 __author__ = "Alex Cappiello"
 __license__ = "See LICENSE.txt"
@@ -32,7 +33,15 @@ class Gui:
         if (path == ""):
             path = item
         subdir = os.sep + os.path.splitext(item)[0]
-        return TextureGrid.Grid(path, entry.map, working_path + subdir)
+
+        grid = TextureGrid.Grid(path, entry.map, working_path + subdir)
+
+        for (item, state) in self.extras_states:
+            fn = self.extras_dict[item][state.get()]
+            if (fn != None):
+                fn(grid)
+
+        return grid
 
     def launch_deconstruct(self):
         """Loop over all files, calling deconstruct."""
@@ -77,8 +86,18 @@ class Gui:
         """All texture pack files to be split at added here."""
         d = dict()
         d["terrain.png"] = CallerInfo(terrain_map)
-        d["items.png"] = CallerInfo(None)
+        d["items.png"] = CallerInfo(items_map)
         self.texture_parts = d
+
+    def init_extras_dict(self):
+        """Extras is the category of other unrelated options.
+        Dictionary format is:
+        display text : (action if unchecked, action if checked)
+        """
+        d = dict()
+        d["Remove numbers in filenames"] = \
+        (None, lambda x: x.disable_filename_numbers())
+        self.extras_dict = d
 
     def init_path_inputs(self):
         """Add an Entry field to the GUI for each file and one for the working
@@ -124,6 +143,7 @@ class Gui:
             box.pack(anchor="w")
             if (len(states) == 1):
                 box.select()
+
         self.res_options = states
         checkboxes.pack(side=LEFT)
 
@@ -139,14 +159,31 @@ class Gui:
             button.pack(anchor="w")
             self.texture_parts[item].state = state
 
-        parts_box.pack()
+        parts_box.pack(side=LEFT, anchor="nw")
 
     def init_options(self):
         """Wrapper for calling everything in the Frame for various options."""
         opt_box = Frame(self.canvas)
         self.init_res_checkboxes(opt_box)
         self.init_parts(opt_box)
+        self.init_extras(opt_box)
         opt_box.pack(anchor="w")
+
+    def init_extras(self, parent):
+        """Various options that don't fall into any more broad category."""
+        self.init_extras_dict()
+
+        extras_box = Frame(parent)
+        Label(extras_box, text="Other options:").pack(anchor="w")
+        states = []
+        for item in self.extras_dict.keys():
+            state = IntVar()  # Use int to index the function tuple.
+            states.append((item, state))
+            button = Checkbutton(extras_box, text=item, variable=state)
+            button.pack(anchor="w")
+
+        self.extras_states = states
+        extras_box.pack(side=LEFT, anchor="nw")
 
     def build(self):
         """Wrapper for calling init functions for various other pieces of the
@@ -168,7 +205,7 @@ class Gui:
 
         self.canvas = Canvas(root)
         self.canvas.pack()
-        #root.resizable(width=0, height=0)
+        root.resizable(width=0, height=0)
 
         self.build()
         # set up events

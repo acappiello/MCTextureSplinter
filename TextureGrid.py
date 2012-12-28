@@ -11,23 +11,34 @@ __license__ = "See LICENSE.txt"
 class Grid:
     """Holds all of the information and logic for moving data between the
     joined pngs and the individual block pngs."""
-    def __init__(obj, img_path, mapping, workdir,
+    def __init__(self, img_path, mapping, workdir,
                  grid_width=16, grid_height=16):
+        # Inputs
         self.img_path = img_path
         self.map = mapping
         self.workdir = workdir
         self.grid_width = grid_width
         self.grid_height = grid_height
 
+        # Other defaults
+        self.filename_numbers = True
+
+    def disable_filename_numbers(self):
+        """Turn off numbering the position in the grid in the filenames."""
+        self.filename_numbers = False
+
     def construct_filename(self, x, y, block):
         """Of form 'xx_yy_name.png'."""
         filename = self.workdir + os.sep
-        if (x < 10):
-            filename = filename + "0"
-        filename = filename + str(x) + "_"
-        if (y < 10):
-            filename = filename + "0"
-        filename = filename + str(y) + "_" + block.name + ".png"
+        if (self.filename_numbers):
+            # Nice formatting would break if > 2 digits.
+            if (x < 10):
+                filename += "0"
+            filename += "%d_" % (x)
+            if (y < 10):
+                filename += "0"
+            filename += "%d_" % (y)
+        filename +="%s.png" % (block.name)
         return filename
 
     def construct_location(self, x, y, block):
