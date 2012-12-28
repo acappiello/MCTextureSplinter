@@ -1,6 +1,7 @@
 """Tkinter-based GUI for MCTextureSplinter."""
 
 import os
+import multiprocessing
 from Tkinter import *
 import tkFileDialog
 import TextureGrid
@@ -45,16 +46,24 @@ class Gui:
 
     def launch_deconstruct(self):
         """Loop over all files, calling deconstruct."""
+        processes = []
         for (item, entry) in self.texture_parts.items():
             if (entry.state.get()):
                 grid = self.make_grid(item, entry)
-                grid.deconstruct()
+                process = multiprocessing.Process(target=grid.deconstruct)
+                processes.append(process)
+                process.start()
+
+        for process in processes:
+            process.join()
 
     def launch_reconstruct(self):
         """Loop over all files, calling reconstruct."""
         working_path = self.working_path.get()
         if (working_path == ""):
             working_path = os.getcwd()
+
+        processes = []
         for (item, entry) in self.texture_parts.items():
             if (entry.state.get()):
                 grid = self.make_grid(item, entry)
@@ -62,7 +71,13 @@ class Gui:
                 for (res, state) in self.res_options:
                     if (state.get()):
                         resolutions.append(res)
-                grid.reconstruct(resolutions)
+                process = multiprocessing.Process(target=grid.reconstruct, \
+                                                      args=(resolutions,))
+                processes.append(process)
+                process.start()
+
+        for process in processes:
+            process.join()
 
     @staticmethod
     def browse_for_file(e):
