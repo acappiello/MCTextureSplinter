@@ -2,9 +2,11 @@
 
 import os
 import multiprocessing
+import atexit
 from Tkinter import *
 import tkFileDialog
 import TextureGrid
+import utils
 from terrain import terrain_map
 from items import items_map
 
@@ -26,16 +28,17 @@ class Gui:
     def make_grid(self, item, entry):
         """Construct a TextureGrid.Grid object by pulling information from the
         GUI."""
-        working_path = self.working_path.get()
-        if (working_path == ""):
-            working_path = os.getcwd()
+        working_path = os.path.abspath(self.working_path.get())
+        #if (working_path == ""):
+        #    working_path = os.getcwd()
 
         path = entry.path.get()
         if (path == ""):
             path = item
         subdir = os.sep + os.path.splitext(item)[0]
 
-        grid = TextureGrid.Grid(path, entry.map, working_path + subdir)
+        grid = TextureGrid.Grid(path, entry.map, working_path + subdir,
+                                multiprocessing_message_queue=self.msg_queue)
 
         for (item, state) in self.extras_states:
             fn = self.extras_dict[item][state.get()]
@@ -56,6 +59,7 @@ class Gui:
 
         for process in processes:
             process.join()
+        utils.flush_errors(self.msg_queue)
 
     def launch_reconstruct(self):
         """Loop over all files, calling reconstruct."""
@@ -78,6 +82,7 @@ class Gui:
 
         for process in processes:
             process.join()
+        utils.flush_errors(self.msg_queue)
 
     @staticmethod
     def browse_for_file(e):
@@ -110,8 +115,12 @@ class Gui:
         display text : (action if unchecked, action if checked)
         """
         d = dict()
-        d["Remove numbers in filenames"] = \
+        d["Remove numbers in filenames."] = \
         (None, lambda x: x.disable_filename_numbers())
+        d["Save reconstructed ouput in input directory instead."] = \
+            (lambda x: x.set_outdir(os.path.abspath(self.working_path.get()) \
+                                        + os.sep + "output"),
+             lambda x: x.set_outdir(os.path.split(x.img_path)[0]))
         self.extras_dict = d
 
     def init_path_inputs(self):
@@ -222,10 +231,10 @@ class Gui:
         self.canvas.pack()
         root.resizable(width=0, height=0)
 
+        self.msg_queue = multiprocessing.Queue()
+        atexit.register(utils.flush_errors, self.msg_queue)
+
         self.build()
-        # set up events
-        #root.bind("<Key>", lambda e: keyPressed(e, canvas))
-        #timerFired(canvas, speedMultiplier)
         # and launch the app
         # This call BLOCKS (so your program waits until you close the window!)
         root.mainloop()
